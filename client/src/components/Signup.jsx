@@ -1,7 +1,38 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSignup = async () => {
+    setError("");
+    if (password !== confirmPassword) {
+      return setError("Passwords do not match");
+    }
+    setLoading(true);
+    try {
+      await axios.post(
+        BASE_URL + "/signup",
+        { firstName, lastName, email, password },
+        { withCredentials: true },
+      );
+      navigate("/login");
+    } catch (err) {
+      setError(err.response?.data || "Signup failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col">
@@ -17,6 +48,8 @@ const Signup = () => {
                   type="text"
                   className="input input-bordered w-full"
                   placeholder="John"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
               <div className="form-control flex-1">
@@ -27,6 +60,8 @@ const Signup = () => {
                   type="text"
                   className="input input-bordered w-full"
                   placeholder="Doe"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
             </div>
@@ -38,6 +73,8 @@ const Signup = () => {
                 type="email"
                 className="input input-bordered w-full"
                 placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="form-control">
@@ -48,6 +85,8 @@ const Signup = () => {
                 type="password"
                 className="input input-bordered w-full"
                 placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="form-control">
@@ -60,10 +99,30 @@ const Signup = () => {
                 type="password"
                 className="input input-bordered w-full"
                 placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSignup()}
               />
             </div>
+
+            {error && (
+              <div className="alert alert-error text-sm py-2">
+                <span>{error}</span>
+              </div>
+            )}
+
             <div className="form-control mt-2">
-              <button className="btn btn-primary w-full">Sign Up</button>
+              <button
+                className="btn btn-primary w-full"
+                onClick={handleSignup}
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="loading loading-spinner loading-sm"></span>
+                ) : (
+                  "Sign Up"
+                )}
+              </button>
             </div>
             <p className="text-center text-sm">
               Already have an account?{" "}

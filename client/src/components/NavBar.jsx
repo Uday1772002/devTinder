@@ -41,7 +41,7 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img alt="user avatar" src={user.PhotoUrl} />
+                <img alt="user avatar" src={user.photoUrl} />
               </div>
             </div>
             <ul
@@ -51,8 +51,16 @@ const Navbar = () => {
               <li>
                 <Link to="/profile" className="justify-between">
                   Profile
-                  <span className="badge">New</span>
                 </Link>
+              </li>
+              <li>
+                <Link to="/connections">Connections</Link>
+              </li>
+              <li>
+                <Link to="/requests">Requests</Link>
+              </li>
+              <li>
+                <Link to="/requests/sent">Sent Requests</Link>
               </li>
               <li>
                 <a>Settings</a>

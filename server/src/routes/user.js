@@ -83,4 +83,17 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
   }
 });
 
+userRouter.get("/user/requests/sent", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+    const sentRequests = await ConnectionRequest.find({
+      fromUserId: loggedInUser._id,
+      status: "interested",
+    }).populate("toUserId", USER_SAFE_DATA);
+    res.json({ message: "Data Fetched Successfully", data: sentRequests });
+  } catch (err) {
+    res.status(404).send("Error: " + err.message);
+  }
+});
+
 module.exports = userRouter;

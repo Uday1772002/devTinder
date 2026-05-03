@@ -20,9 +20,10 @@ const validateEditProfileData = (req) => {
     "photoUrl",
     "about",
     "skills",
+    "gender",
   ];
   const isEditAllowed = Object.keys(req.body).every((k) =>
-    allowedEditFields.includes(k)
+    allowedEditFields.includes(k),
   );
   return isEditAllowed;
 };

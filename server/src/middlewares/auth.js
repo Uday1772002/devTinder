@@ -7,19 +7,19 @@ const userAuth = async (req, res, next) => {
     const cookies = req.cookies;
     const { token } = cookies;
     if (!token) {
-      throw new Error("Invalid token");
+      return res.status(401).send("Unauthorized: No token provided");
     }
     const decodedObj = await jwt.verify(token, "Jayadextor@45");
 
     const { _id } = decodedObj;
     const user = await User.findById({ _id });
     if (!user) {
-      throw new Error("User not found");
+      return res.status(401).send("Unauthorized: User not found");
     }
     req.user = user;
     next();
   } catch (err) {
-    res.status(400).send("Error: " + err.message);
+    res.status(401).send("Unauthorized: " + err.message);
   }
 };
 

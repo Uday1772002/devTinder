@@ -9,3 +9,6 @@
 - Installed react router dom
 - created outlet so it can render children
 - Created footer
+- installed axios
+- setup the cors in backend
+- url for making it as a secure network axios => {withCreddentils: true} without this cookies won't be send

@@ -6,12 +6,14 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const User = require("./models/user");
 const userRouter = require("./routes/user");
+const cors = require("cors");
 
 const app = express(); //create server
 
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);

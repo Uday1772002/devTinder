@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const { connectDB } = require("./config/database"); //database connection
 const cookieParser = require("cookie-parser");

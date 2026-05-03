@@ -11,7 +11,6 @@ userAuth.post("/signup", async (req, res) => {
     const { firstName, lastName, email, password, about, age, skills } =
       req.body;
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
 
     const user = new User({
       firstName,

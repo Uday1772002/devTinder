@@ -24,12 +24,11 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
     //takes the keys of the req.body for example "firstName", "lastName" which we allowed to update so for each key like forEach(firsName, lastName,---) loggedInUser in the cense the useData which we already have before updated one is equals to the req.body which we edited it replaces it so then we get the updated data
     Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key])); //important logic
 
-    // res.send(`${loggedInUser.firstName} your profile has been updated Successfully`);
+    await loggedInUser.save();
     res.json({
       message: `${loggedInUser.firstName} your profile has been updated Successfully`,
       data: loggedInUser,
     });
-    await loggedInUser.save();
   } catch (err) {
     res.status(401).send("Error: " + err.message);
   }

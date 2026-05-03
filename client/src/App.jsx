@@ -8,6 +8,7 @@ import Signup from "./components/Signup";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Feed from "./components/Feed";
+import EditProfile from "./components/EditProfile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import SentRequests from "./components/SentRequests";

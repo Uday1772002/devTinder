@@ -14,7 +14,7 @@ const app = express(); //create server
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "http://13.232.71.115", credentials: true }));
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);

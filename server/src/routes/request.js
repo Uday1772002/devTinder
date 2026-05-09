@@ -52,13 +52,15 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
-      const emailResponse = await sendEmail.run();
+      const emailResponse = await sendEmail.run(
+        req.user.firstName + " is " + status + " in " + toUser.firstName,
+        "Connection Request Status",
+      );
       console.log("Email Response: ", emailResponse);
       res.json({
         message:
           req.user.firstName + " is " + status + " in " + toUser.firstName,
         data,
-        emailResponse,
       });
     } catch (err) {
       res.status(400).send("Error: " + err.message);

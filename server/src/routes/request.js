@@ -52,11 +52,14 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
-      const emailResponse = await sendEmail.run(
-        req.user.firstName + " is " + status + " in " + toUser.firstName,
-        "Connection Request Status",
-      );
-      console.log("Email Response: ", emailResponse);
+      if (status === "interested") {
+        const emailResponse = await sendEmail.run(
+          req.user.firstName + " is " + status + " in " + toUser.firstName,
+          "Connection Request Status",
+        );
+        console.log("Email Response: ", emailResponse);
+      }
+
       res.json({
         message:
           req.user.firstName + " is " + status + " in " + toUser.firstName,

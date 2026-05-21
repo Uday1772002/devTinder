@@ -12,7 +12,7 @@ import EditProfile from "./components/EditProfile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import SentRequests from "./components/SentRequests";
-import Premium from "./components/premium";
+import Premium from "./components/Premium";
 
 function App() {
   return (

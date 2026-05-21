@@ -34,3 +34,5 @@ cron.schedule("0 8 * * *", async () => {
     console.log("Error in cron job: ", err.message);
   }
 });
+
+module.exports = cron;

@@ -22,6 +22,7 @@ cron.schedule("0 8 * * *", async () => {
     for (const email of listOfEmails) {
       try {
         const recipients = await sendEmail.run(
+          email,
           "You have new connection requests! Check them out.",
           "New Connection Requests",
         );

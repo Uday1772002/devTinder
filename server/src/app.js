@@ -8,7 +8,7 @@ const requestRouter = require("./routes/request");
 const User = require("./models/user");
 const userRouter = require("./routes/user");
 const cors = require("cors");
-const cronJob = require("./utils/cronJob");
+const cronJob = require("./utils/cronjob");
 const app = express(); //create server
 
 app.use(express.json());

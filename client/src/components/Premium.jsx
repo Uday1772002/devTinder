@@ -1,146 +1,196 @@
-import { useNavigate } from "react-router-dom";
-import { Check, Star, Zap, Heart } from "lucide-react";
+import { useState } from "react";
 
 export default function Premium() {
-  const navigate = useNavigate();
+  const [selectedPlan, setSelectedPlan] = useState("pro");
 
-  const features = [
+  const plans = [
     {
-      icon: Star,
-      title: "Unlimited Likes",
-      description: "Like as many profiles as you want",
+      id: "starter",
+      name: "Starter",
+      price: "9",
+      description: "Perfect for getting started",
+      features: [
+        "50 likes per day",
+        "View 10 profiles per day",
+        "Basic matching",
+        "Standard support",
+      ],
+      color: "primary",
     },
     {
-      icon: Zap,
-      title: "Priority Messaging",
-      description: "Your messages appear first in inboxes",
+      id: "pro",
+      name: "Pro",
+      price: "19",
+      description: "Most popular plan",
+      features: [
+        "Unlimited likes",
+        "Unlimited profile views",
+        "Advanced matching",
+        "Priority support",
+        "See who liked you",
+        "Message read receipts",
+      ],
+      color: "secondary",
+      popular: true,
     },
     {
-      icon: Heart,
-      title: "See Who Liked You",
-      description: "Know who's interested before you decide",
-    },
-    {
-      icon: Check,
-      title: "Advanced Filters",
-      description: "Filter by interests, location, and more",
+      id: "premium",
+      name: "Premium",
+      price: "29",
+      description: "Maximum features",
+      features: [
+        "Everything in Pro",
+        "Verified badge",
+        "Ad-free experience",
+        "Premium profile boost",
+        "Monthly super likes (10)",
+        "24/7 VIP support",
+        "Advanced filters",
+      ],
+      color: "accent",
     },
   ];
 
-  const handleUpgrade = () => {
-    navigate("/checkout");
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Star className="w-8 h-8 text-amber-500" fill="currentColor" />
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900">
-              Premium
-            </h1>
-          </div>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Unlock premium features and connect with more people
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-100">
+      {/* Header */}
+      <div className="text-center pt-12 pb-8 px-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-base-content mb-3">
+          Unlock Premium Features
+        </h1>
+        <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
+          Find meaningful connections with our premium plans. Choose the perfect
+          plan for you.
+        </p>
+      </div>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
-          {features.map((feature, index) => {
-            const IconComponent = feature.icon;
-            return (
-              <div
-                key={index}
-                className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-amber-50 rounded-lg">
-                    <IconComponent className="w-6 h-6 text-amber-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-gray-600">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Pricing Card */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-          <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-8 sm:px-8">
-            <div className="text-center">
-              <p className="text-white/90 text-sm font-medium mb-2">
-                Special Launch Offer
-              </p>
-              <div className="flex items-baseline justify-center gap-2 mb-2">
-                <span className="text-5xl font-bold text-white">₹499</span>
-                <span className="text-white/80 line-through">₹999</span>
-              </div>
-              <p className="text-white/90 text-sm">per month, cancel anytime</p>
-            </div>
-          </div>
-
-          <div className="px-6 py-8 sm:px-8">
-            <ul className="space-y-3 mb-8">
-              {features.map((feature, index) => (
-                <li key={index} className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-gray-700">{feature.title}</span>
-                </li>
-              ))}
-            </ul>
-
-            <button
-              onClick={handleUpgrade}
-              className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold py-3 rounded-lg transition-all transform hover:scale-105 active:scale-95"
+      {/* Plans Container */}
+      <div className="max-w-7xl mx-auto px-4 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {plans.map((plan) => (
+            <div
+              key={plan.id}
+              className={`card transition-all duration-300 ${
+                selectedPlan === plan.id
+                  ? "ring-2 ring-offset-2 ring-primary"
+                  : ""
+              } ${plan.popular ? "md:scale-105 shadow-2xl" : "shadow-lg"}`}
             >
-              Upgrade Now
-            </button>
+              {plan.popular && (
+                <div className="bg-gradient-to-r from-primary to-secondary text-primary-content px-4 py-2 text-center font-semibold text-sm">
+                  Most Popular
+                </div>
+              )}
 
-            <p className="text-center text-xs text-gray-500 mt-4">
-              No commitments. Cancel anytime from your account settings.
-            </p>
-          </div>
-        </div>
+              <div className="card-body">
+                {/* Plan Header */}
+                <h2 className="card-title text-2xl font-bold text-base-content">
+                  {plan.name}
+                </h2>
+                <p className="text-base-content/60 text-sm">
+                  {plan.description}
+                </p>
 
-        {/* FAQ Section */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
-            Common Questions
-          </h2>
-          <div className="space-y-4">
-            {[
-              {
-                q: "Can I cancel anytime?",
-                a: "Yes! Cancel from your account settings with just one click. No questions asked.",
-              },
-              {
-                q: "Is my payment secure?",
-                a: "Absolutely. We use industry-standard encryption and trusted payment processors.",
-              },
-              {
-                q: "What if I'm not satisfied?",
-                a: "Contact our support team within 7 days for a full refund.",
-              },
-            ].map((faq, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg p-4 border border-gray-100"
-              >
-                <p className="font-semibold text-gray-900 mb-2">{faq.q}</p>
-                <p className="text-gray-600 text-sm">{faq.a}</p>
+                {/* Price */}
+                <div className="my-4">
+                  <span className="text-5xl font-bold text-base-content">
+                    ${plan.price}
+                  </span>
+                  <span className="text-base-content/60 ml-2">/month</span>
+                </div>
+
+                {/* CTA Button */}
+                <button
+                  onClick={() => setSelectedPlan(plan.id)}
+                  className={`btn w-full mb-6 ${
+                    plan.popular ? "btn-primary" : "btn-outline btn-primary"
+                  }`}
+                >
+                  {selectedPlan === plan.id ? "Current Plan" : "Choose Plan"}
+                </button>
+
+                {/* Divider */}
+                <div className="divider my-2"></div>
+
+                {/* Features */}
+                <ul className="space-y-3 flex-1">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <svg
+                        className="w-5 h-5 text-success flex-shrink-0 mt-0.5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span className="text-base-content/80 text-sm">
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="max-w-4xl mx-auto px-4 pb-16">
+        <h3 className="text-2xl font-bold text-center mb-8 text-base-content">
+          Frequently Asked Questions
+        </h3>
+
+        <div className="space-y-3">
+          {[
+            {
+              q: "Can I cancel anytime?",
+              a: "Yes! You can cancel your subscription at any time with no questions asked.",
+            },
+            {
+              q: "Is there a free trial?",
+              a: "We offer a 7-day free trial for all premium plans. No credit card required.",
+            },
+            {
+              q: "Do you offer refunds?",
+              a: "We offer a 30-day money-back guarantee if you're not satisfied.",
+            },
+            {
+              q: "Can I upgrade my plan?",
+              a: "Of course! You can upgrade or downgrade your plan at any time.",
+            },
+          ].map((faq, index) => (
+            <div key={index} className="collapse collapse-plus bg-base-200">
+              <input
+                type="radio"
+                name="faq-accordion"
+                defaultChecked={index === 0}
+              />
+              <div className="collapse-title font-semibold text-base-content">
+                {faq.q}
+              </div>
+              <div className="collapse-content text-base-content/80">
+                <p>{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer CTA */}
+      <div className="bg-primary text-primary-content py-12 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-3">Ready to connect?</h2>
+          <p className="mb-6 opacity-90">
+            Join thousands of users who found meaningful connections
+          </p>
+          <button className="btn btn-ghost btn-lg text-primary-content hover:bg-white hover:text-primary">
+            Get Started Now
+          </button>
         </div>
       </div>
     </div>

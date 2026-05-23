@@ -9,6 +9,7 @@ const User = require("./models/user");
 const userRouter = require("./routes/user");
 const cors = require("cors");
 const cronJob = require("./utils/cronjob");
+const paymentRouter = require("./routes/payments");
 const app = express(); //create server
 
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/", paymentRouter);
 
 //   const userId = req.params.userId;
 //   const data = req.body;

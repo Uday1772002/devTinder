@@ -1,215 +1,148 @@
-import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Check, Star, Zap, Heart } from "lucide-react";
 
-const plans = [
-  {
-    id: "silver",
-    name: "Silver",
-    badge: null,
-    price: { monthly: 9, quarterly: 24 },
-    color: "from-slate-400 to-slate-600",
-    borderColor: "border-slate-400",
-    btnClass:
-      "btn-outline border-slate-400 text-slate-300 hover:bg-slate-500 hover:border-slate-500",
-    icon: "🥈",
-    features: [
-      { text: "100 Connection Requests / day", included: true },
-      { text: "Blue Tick Verified Badge", included: true },
-      { text: "See who viewed your profile", included: true },
-      { text: "Advanced Filters & Search", included: true },
-      { text: "Priority in Feed", included: false },
-      { text: "AI-powered Match Suggestions", included: false },
-      { text: "Unlimited Super Likes", included: false },
-      { text: "Dedicated Support", included: false },
-    ],
-  },
-  {
-    id: "gold",
-    name: "Gold",
-    badge: "Most Popular",
-    price: { monthly: 19, quarterly: 49 },
-    color: "from-yellow-400 to-amber-600",
-    borderColor: "border-yellow-400",
-    btnClass: "btn-warning text-black font-bold shadow-lg shadow-yellow-500/30",
-    icon: "👑",
-    features: [
-      { text: "Unlimited Connection Requests", included: true },
-      { text: "Blue Tick Verified Badge", included: true },
-      { text: "See who viewed your profile", included: true },
-      { text: "Advanced Filters & Search", included: true },
-      { text: "Priority in Feed", included: true },
-      { text: "AI-powered Match Suggestions", included: true },
-      { text: "Unlimited Super Likes", included: false },
-      { text: "Dedicated Support", included: false },
-    ],
-  },
-  {
-    id: "platinum",
-    name: "Platinum",
-    badge: "Best Value",
-    price: { monthly: 29, quarterly: 69 },
-    color: "from-violet-500 to-purple-700",
-    borderColor: "border-violet-500",
-    btnClass: "btn-primary shadow-lg shadow-violet-500/30",
-    icon: "💎",
-    features: [
-      { text: "Unlimited Connection Requests", included: true },
-      { text: "Blue Tick Verified Badge", included: true },
-      { text: "See who viewed your profile", included: true },
-      { text: "Advanced Filters & Search", included: true },
-      { text: "Priority in Feed", included: true },
-      { text: "AI-powered Match Suggestions", included: true },
-      { text: "Unlimited Super Likes", included: true },
-      { text: "Dedicated Support", included: true },
-    ],
-  },
-];
+export default function Premium() {
+  const navigate = useNavigate();
 
-const Premium = () => {
-  const [billing, setBilling] = useState("monthly");
+  const features = [
+    {
+      icon: Star,
+      title: "Unlimited Likes",
+      description: "Like as many profiles as you want",
+    },
+    {
+      icon: Zap,
+      title: "Priority Messaging",
+      description: "Your messages appear first in inboxes",
+    },
+    {
+      icon: Heart,
+      title: "See Who Liked You",
+      description: "Know who's interested before you decide",
+    },
+    {
+      icon: Check,
+      title: "Advanced Filters",
+      description: "Filter by interests, location, and more",
+    },
+  ];
+
+  const handleUpgrade = () => {
+    navigate("/checkout");
+  };
 
   return (
-    <div className="min-h-screen bg-base-200 py-16 px-4">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <div className="badge badge-warning badge-lg mb-4 px-4 py-3 font-semibold tracking-wide uppercase text-xs">
-          ✨ Upgrade Your Experience
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Star className="w-8 h-8 text-amber-500" fill="currentColor" />
+            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900">
+              Premium
+            </h1>
+          </div>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Unlock premium features and connect with more people
+          </p>
         </div>
-        <h1 className="text-5xl font-extrabold text-base-content mb-4 leading-tight">
-          Find Your Perfect{" "}
-          <span className="bg-gradient-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent">
-            Match Faster
-          </span>
-        </h1>
-        <p className="text-base-content/60 text-lg max-w-xl mx-auto">
-          Unlock premium features and connect with more developers around the
-          world. Cancel anytime.
-        </p>
 
-        {/* Billing Toggle */}
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <span
-            className={`text-sm font-medium ${billing === "monthly" ? "text-base-content" : "text-base-content/40"}`}
-          >
-            Monthly
-          </span>
-          <input
-            type="checkbox"
-            className="toggle toggle-warning"
-            checked={billing === "quarterly"}
-            onChange={() =>
-              setBilling((b) => (b === "monthly" ? "quarterly" : "monthly"))
-            }
-          />
-          <span
-            className={`text-sm font-medium flex items-center gap-2 ${billing === "quarterly" ? "text-base-content" : "text-base-content/40"}`}
-          >
-            Quarterly
-            <span className="badge badge-success badge-sm font-bold">
-              Save 30%
-            </span>
-          </span>
-        </div>
-      </div>
-
-      {/* Plans Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-        {plans.map((plan) => (
-          <div
-            key={plan.id}
-            className={`relative flex flex-col rounded-3xl border-2 ${plan.borderColor} bg-base-100 shadow-xl transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl overflow-hidden`}
-          >
-            {/* Popular Badge */}
-            {plan.badge && (
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {features.map((feature, index) => {
+            const IconComponent = feature.icon;
+            return (
               <div
-                className={`absolute top-4 right-4 badge ${plan.id === "gold" ? "badge-warning" : "badge-primary"} font-bold text-xs px-3 py-3`}
+                key={index}
+                className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
               >
-                {plan.badge}
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-amber-50 rounded-lg">
+                    <IconComponent className="w-6 h-6 text-amber-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-1">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
               </div>
-            )}
+            );
+          })}
+        </div>
 
-            {/* Gradient Header */}
-            <div
-              className={`bg-gradient-to-br ${plan.color} p-8 flex flex-col items-center`}
-            >
-              <span className="text-5xl mb-3">{plan.icon}</span>
-              <h2 className="text-2xl font-extrabold text-white tracking-wide">
-                {plan.name}
-              </h2>
-              <div className="mt-4 flex items-end gap-1">
-                <span className="text-5xl font-black text-white">
-                  ${plan.price[billing]}
-                </span>
-                <span className="text-white/70 mb-2 text-sm">
-                  /{billing === "monthly" ? "mo" : "3 mo"}
-                </span>
+        {/* Pricing Card */}
+        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-8 sm:px-8">
+            <div className="text-center">
+              <p className="text-white/90 text-sm font-medium mb-2">
+                Special Launch Offer
+              </p>
+              <div className="flex items-baseline justify-center gap-2 mb-2">
+                <span className="text-5xl font-bold text-white">₹499</span>
+                <span className="text-white/80 line-through">₹999</span>
               </div>
-              {billing === "quarterly" && (
-                <p className="text-white/70 text-xs mt-1">
-                  ${(plan.price.quarterly / 3).toFixed(2)}/month billed
-                  quarterly
-                </p>
-              )}
-            </div>
-
-            {/* Features */}
-            <div className="flex flex-col flex-1 p-8">
-              <ul className="space-y-3 flex-1">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    {feature.included ? (
-                      <span className="text-success text-lg font-bold shrink-0">
-                        ✓
-                      </span>
-                    ) : (
-                      <span className="text-base-content/25 text-lg shrink-0">
-                        ✕
-                      </span>
-                    )}
-                    <span
-                      className={`text-sm ${feature.included ? "text-base-content" : "text-base-content/30"}`}
-                    >
-                      {feature.text}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                className={`btn w-full mt-8 rounded-xl text-sm ${plan.btnClass}`}
-              >
-                Get {plan.name}
-              </button>
+              <p className="text-white/90 text-sm">per month, cancel anytime</p>
             </div>
           </div>
-        ))}
-      </div>
 
-      {/* Trust Bar */}
-      <div className="mt-16 max-w-3xl mx-auto">
-        <div className="divider text-base-content/30 text-sm">
-          Trusted by 50,000+ developers worldwide
-        </div>
-        <div className="flex flex-wrap justify-center gap-8 mt-6">
-          {[
-            { icon: "🔒", label: "Secure Payments" },
-            { icon: "🔄", label: "Cancel Anytime" },
-            { icon: "⚡", label: "Instant Activation" },
-            { icon: "🎯", label: "10x More Matches" },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="flex flex-col items-center gap-2 text-center"
+          <div className="px-6 py-8 sm:px-8">
+            <ul className="space-y-3 mb-8">
+              {features.map((feature, index) => (
+                <li key={index} className="flex items-center gap-3">
+                  <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-gray-700">{feature.title}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              onClick={handleUpgrade}
+              className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold py-3 rounded-lg transition-all transform hover:scale-105 active:scale-95"
             >
-              <span className="text-3xl">{item.icon}</span>
-              <span className="text-xs text-base-content/50 font-medium">
-                {item.label}
-              </span>
-            </div>
-          ))}
+              Upgrade Now
+            </button>
+
+            <p className="text-center text-xs text-gray-500 mt-4">
+              No commitments. Cancel anytime from your account settings.
+            </p>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
+            Common Questions
+          </h2>
+          <div className="space-y-4">
+            {[
+              {
+                q: "Can I cancel anytime?",
+                a: "Yes! Cancel from your account settings with just one click. No questions asked.",
+              },
+              {
+                q: "Is my payment secure?",
+                a: "Absolutely. We use industry-standard encryption and trusted payment processors.",
+              },
+              {
+                q: "What if I'm not satisfied?",
+                a: "Contact our support team within 7 days for a full refund.",
+              },
+            ].map((faq, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg p-4 border border-gray-100"
+              >
+                <p className="font-semibold text-gray-900 mb-2">{faq.q}</p>
+                <p className="text-gray-600 text-sm">{faq.a}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default Premium;
+}

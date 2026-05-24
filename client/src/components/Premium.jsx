@@ -7,119 +7,161 @@ const Premium = () => {
     const order = await axios.post(
       BASE_URL + "/payment/create",
       { membershipType: type },
-      {
-        withCredentials: true,
-      },
+      { withCredentials: true },
     );
-
     const { amount, currency, keyId, notes, orderId } = order.data;
     const options = {
-      key: keyId, // Replace with your Razorpay key_id
-      amount, // Amount is in currency subunits.
+      key: keyId,
+      amount,
       currency,
-      name: "Acme Corp",
-      description: "Test Transaction",
-      order_id: orderId, // This is the order_id created in the backend
+      name: "devTinder",
+      description: "Premium Membership",
+      order_id: orderId,
       prefill: {
         name: notes.firstName + " " + notes.lastName,
         email: notes.email,
         contact: 9999999999,
       },
-      theme: {
-        color: "#F37254",
-      },
+      theme: { color: "#F37254" },
     };
-
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-8">
-      {/* Silver */}
-      <div className="flex flex-col gap-4 rounded-xl p-6 border border-gray-200 bg-white">
-        <div>
-          <h3 className="text-xl font-semibold">Silver</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            A solid start for individuals exploring the basics.
-          </p>
-        </div>
-        <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-medium">₹499</span>
-          <span className="text-sm text-gray-400">/ month</span>
-        </div>
-        <hr className="border-gray-100" />
-        <ul className="flex flex-col gap-2 flex-1 text-sm text-gray-500">
-          <li>✓ 5 projects</li>
-          <li>✓ 10 GB storage</li>
-          <li>✓ Email support</li>
-          <li>✓ Basic analytics</li>
-        </ul>
-        <button
-          onClick={() => handleBuyClick("silver")}
-          className="mt-auto w-full py-2.5 rounded-lg text-sm font-medium border border-gray-300 hover:bg-gray-50 transition"
-        >
-          Select Silver
-        </button>
-      </div>
+    <div className="min-h-screen bg-base-200 flex flex-col items-center justify-center px-4 py-16">
+      <p className="text-xs font-medium tracking-widest uppercase text-base-content/40 mb-8">
+        Choose your plan
+      </p>
 
-      {/* Gold */}
-      <div className="flex flex-col gap-4 rounded-xl p-6 border-2 border-blue-500 bg-white">
-        <span className="text-xs font-medium bg-blue-50 text-blue-600 px-3 py-1 rounded-md w-fit">
-          Most popular
-        </span>
-        <div>
-          <h3 className="text-xl font-semibold">Gold</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            For professionals who need more power and support.
-          </p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full max-w-5xl">
+        {/* Silver */}
+        <div className="flex flex-col gap-5 rounded-2xl p-6 border border-base-content/10 bg-base-100">
+          <div>
+            <div className="text-2xl mb-2">🥈</div>
+            <h3 className="text-lg font-semibold text-base-content">Silver</h3>
+            <p className="text-sm text-base-content/50 mt-1 leading-relaxed">
+              A solid start for individuals exploring the basics.
+            </p>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <span className="text-4xl font-semibold text-base-content">
+              ₹499
+            </span>
+            <span className="text-sm text-base-content/40">/ month</span>
+          </div>
+          <hr className="border-base-content/10" />
+          <ul className="flex flex-col gap-2.5 flex-1 text-sm text-base-content/60">
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> 5 projects
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> 10 GB storage
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> Email support
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> Basic analytics
+            </li>
+          </ul>
+          <button
+            onClick={() => handleBuyClick("silver")}
+            className="mt-auto w-full py-3 rounded-xl text-sm font-medium border border-base-content/20 text-base-content hover:bg-base-content/5 transition-all"
+          >
+            Select Silver
+          </button>
         </div>
-        <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-medium">₹999</span>
-          <span className="text-sm text-gray-400">/ month</span>
-        </div>
-        <hr className="border-gray-100" />
-        <ul className="flex flex-col gap-2 flex-1 text-sm text-gray-500">
-          <li>✓ 25 projects</li>
-          <li>✓ 50 GB storage</li>
-          <li>✓ Priority email & chat</li>
-          <li>✓ Advanced analytics</li>
-          <li>✓ Custom integrations</li>
-        </ul>
-        <button
-          onClick={() => handleBuyClick("gold")}
-          className="mt-auto w-full py-2.5 rounded-lg text-sm font-medium bg-gray-900 text-white hover:bg-gray-700 transition"
-        >
-          Select Gold
-        </button>
-      </div>
 
-      {/* Platinum */}
-      <div className="flex flex-col gap-4 rounded-xl p-6 border border-gray-200 bg-white">
-        <div>
-          <h3 className="text-xl font-semibold">Platinum</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            Full access for teams that demand the very best.
-          </p>
+        {/* Gold — featured */}
+        <div className="flex flex-col gap-5 rounded-2xl p-6 border-2 border-info bg-base-100 relative">
+          <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-semibold px-4 py-1 rounded-full bg-info text-info-content whitespace-nowrap">
+            ⚡ Most popular
+          </span>
+          <div className="mt-3">
+            <div className="text-2xl mb-2">🥇</div>
+            <h3 className="text-lg font-semibold text-base-content">Gold</h3>
+            <p className="text-sm text-base-content/50 mt-1 leading-relaxed">
+              For professionals who need more power and support.
+            </p>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <span className="text-4xl font-semibold text-base-content">
+              ₹999
+            </span>
+            <span className="text-sm text-base-content/40">/ month</span>
+          </div>
+          <hr className="border-base-content/10" />
+          <ul className="flex flex-col gap-2.5 flex-1 text-sm text-base-content/60">
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> 25 projects
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> 50 GB storage
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> Priority email & chat
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> Advanced analytics
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> Custom integrations
+            </li>
+          </ul>
+          <button
+            onClick={() => handleBuyClick("gold")}
+            className="mt-auto w-full py-3 rounded-xl text-sm font-medium bg-base-content text-base-100 hover:opacity-85 transition-all"
+          >
+            Select Gold
+          </button>
         </div>
-        <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-medium">₹1,999</span>
-          <span className="text-sm text-gray-400">/ month</span>
+
+        {/* Platinum */}
+        <div className="flex flex-col gap-5 rounded-2xl p-6 border border-base-content/10 bg-base-100">
+          <div>
+            <div className="text-2xl mb-2">💎</div>
+            <h3 className="text-lg font-semibold text-base-content">
+              Platinum
+            </h3>
+            <p className="text-sm text-base-content/50 mt-1 leading-relaxed">
+              Full access for teams that demand the very best.
+            </p>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <span className="text-4xl font-semibold text-base-content">
+              ₹1,999
+            </span>
+            <span className="text-sm text-base-content/40">/ month</span>
+          </div>
+          <hr className="border-base-content/10" />
+          <ul className="flex flex-col gap-2.5 flex-1 text-sm text-base-content/60">
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> Unlimited projects
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> 500 GB storage
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> 24/7 dedicated support
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> Full analytics suite
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> Custom integrations
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="text-success">✓</span> SLA guarantee
+            </li>
+          </ul>
+          <button
+            onClick={() => handleBuyClick("platinum")}
+            className="mt-auto w-full py-3 rounded-xl text-sm font-medium border border-base-content/20 text-base-content hover:bg-base-content/5 transition-all"
+          >
+            Select Platinum
+          </button>
         </div>
-        <hr className="border-gray-100" />
-        <ul className="flex flex-col gap-2 flex-1 text-sm text-gray-500">
-          <li>✓ Unlimited projects</li>
-          <li>✓ 500 GB storage</li>
-          <li>✓ 24/7 dedicated support</li>
-          <li>✓ Full analytics suite</li>
-          <li>✓ Custom integrations</li>
-          <li>✓ SLA guarantee</li>
-        </ul>
-        <button
-          onClick={() => handleBuyClick("platinum")}
-          className="mt-auto w-full py-2.5 rounded-lg text-sm font-medium border border-gray-300 hover:bg-gray-50 transition"
-        >
-          Select Platinum
-        </button>
       </div>
     </div>
   );

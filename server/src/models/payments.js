@@ -40,12 +40,12 @@ const paymentSchema = new mongoose.Schema(
       lastName: {
         type: String,
       },
-      memberShipType: {
+      membershipType: {
         type: String,
-        enum: {
-          values: ["silver", "gold", "premium"],
-          message: `{$VALUE} not supported`,
-        },
+        // enum: {
+        //   values: ["silver", "gold", "premium"],
+        //   message: `{$VALUE} not supported`,
+        // },
       },
     },
   },

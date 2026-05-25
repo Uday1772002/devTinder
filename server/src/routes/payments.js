@@ -91,6 +91,39 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     res.status(500).send("Error in webhook:" + err.message);
     console.log(err);
   }
+
+  paymentRouter.get("/payment/verify", userAuth, async (req, res) => {
+    try {
+      const user = req.user;
+      if (!user.isPremium) {
+        return res.json({ isPremium: false });
+      } else {
+        return res.json({
+          isPremium: true,
+          membershipType: user.membershipType,
+          validUntil: user.membershipValidUntil,
+        });
+      }
+      // Check if the membership is still valid
+      const currentDate = new Date();
+      if (user.membershipValidUntil < currentDate) {
+        // Membership has expired, update user status
+        user.isPremium = false;
+        user.membershipType = undefined;
+        user.membershipValidUntil = undefined;
+        await user.save();
+        return res.json({ isPremium: false });
+      }
+      res.json({
+        isPremium: true,
+        membershipType: user.membershipType,
+        validUntil: user.membershipValidUntil,
+      });
+    } catch (err) {
+      res.status(500).send("Error fetching payment status:" + err.message);
+      console.log(err);
+    }
+  });
 });
 
 module.exports = paymentRouter;

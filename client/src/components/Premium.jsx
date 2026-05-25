@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 
 const Premium = () => {
+  const [isUserPremium, setIsUserPremium] = useState(false);
+  const verifyPremiumUser = async () => {
+    try {
+      const res = await axios.get(BASE_URL + "/payment/verify", {
+        withCredentials: true,
+      });
+      if (res.data.isPremium) {
+        setIsUserPremium(true);
+        alert("Payment successful! Your premium membership is now active.");
+      } else {
+        alert("Payment verification failed: Your membership is not active.");
+      }
+    } catch (err) {
+      alert("Payment verification failed: " + err.message);
+    }
+  };
   const handleBuyClick = async (type) => {
     const order = await axios.post(
       BASE_URL + "/payment/create",
@@ -23,12 +39,15 @@ const Premium = () => {
         contact: 9999999999,
       },
       theme: { color: "#F37254" },
+      handler: verifyPremiumUser,
     };
     const rzp = new window.Razorpay(options);
     rzp.open();
   };
 
-  return (
+  return isUserPremium ? (
+    "You are already a premium member!"
+  ) : (
     <div className="min-h-screen bg-base-200 flex flex-col items-center justify-center px-4 py-16">
       <p className="text-xs font-medium tracking-widest uppercase text-base-content/40 mb-8">
         Choose your plan

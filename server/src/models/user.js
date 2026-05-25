@@ -44,6 +44,20 @@ const userSchema = new mongoose.Schema(
         message: `{$VALUE} is not supported `,
       },
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    membershipType: {
+      type: String,
+      enum: {
+        values: ["silver", "gold", "premium"],
+        message: `{$VALUE} is not supported `,
+      },
+    },
+    membershipValidUntil: {
+      type: Date,
+    },
     photoUrl: {
       type: String,
       validate(value) {

@@ -46,7 +46,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
   try {
     const webhookValid = validateWebhookSignature(
       JSON.stringify(req.body),
-      req.headers("x-razorpay-signature"),
+      req.headers["x-razorpay-signature"],
       process.env.RAZORPAY_WEBHOOK_SECRET,
     );
     console.log("Webhook valid:", webhookValid);
@@ -67,7 +67,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
 
     // Update user's membership status based on the payment status
     const user = await User.findById({ _id: payment.userId });
-    user.isPremium == true;
+    user.isPremium = true;
     user.membershipType = payment.notes.membershipType;
     const currentDate = new Date();
     if (payment.notes.membershipType === "silver") {
@@ -84,7 +84,6 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
       );
     }
     await user.save();
-
 
     console.log("Payment and user membership status updated successfully");
     return res.status(200).send("Webhook received successfully");

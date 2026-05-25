@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 
 const Premium = () => {
   const [isUserPremium, setIsUserPremium] = useState(false);
-
+  useEffect(() => {
+    verifyPremiumUser();
+  }, []);
   const verifyPremiumUser = async () => {
     try {
       const res = await axios.get(BASE_URL + "/payment/verify", {
@@ -12,7 +14,7 @@ const Premium = () => {
       });
       if (res.data.isPremium) {
         setIsUserPremium(true);
-        alert("Payment successful! Your premium membership is now active.");
+        // alert("Payment successful! Your premium membership is now active.");
       } else {
         alert("Payment verification failed: Your membership is not active.");
       }

@@ -50,10 +50,10 @@ const userSchema = new mongoose.Schema(
     },
     membershipType: {
       type: String,
-      enum: {
-        values: ["silver", "gold", "premium"],
-        message: `{$VALUE} is not supported `,
-      },
+      // enum: {
+      //   values: ["silver", "gold", "premium"],
+      //   message: `{$VALUE} is not supported `,
+      // },
     },
     membershipValidUntil: {
       type: Date,

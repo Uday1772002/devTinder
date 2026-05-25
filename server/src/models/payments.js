@@ -17,10 +17,6 @@ const paymentSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: {
-        values: ["created", "paid", "failed"],
-        message: `{$VALUE} not supported`,
-      },
     },
     amount: {
       type: Number,
@@ -42,10 +38,6 @@ const paymentSchema = new mongoose.Schema(
       },
       membershipType: {
         type: String,
-        // enum: {
-        //   values: ["silver", "gold", "premium"],
-        //   message: `{$VALUE} not supported`,
-        // },
       },
     },
   },

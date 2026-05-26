@@ -13,6 +13,7 @@ import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import SentRequests from "./components/SentRequests";
 import Premium from "./components/Premium";
+import Chat from "./components/Chat";
 
 function App() {
   return (

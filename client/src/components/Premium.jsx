@@ -15,8 +15,6 @@ const Premium = () => {
       if (res.data.isPremium) {
         setIsUserPremium(true);
         // alert("Payment successful! Your premium membership is now active.");
-      } else {
-        alert("Payment verification failed: Your membership is not active.");
       }
     } catch (err) {
       alert("Payment verification failed: " + err.message);

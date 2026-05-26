@@ -29,6 +29,7 @@ function App() {
               <Route path="connections" element={<Connections />} />
               <Route path="requests" element={<Requests />} />
               <Route path="premium" element={<Premium />} />
+              <Route path="/chat/:targetUserId" element={<Chat />} />
               <Route path="requests/sent" element={<SentRequests />} />
               <Route path="/footer" element={<Footer />} />
             </Route>

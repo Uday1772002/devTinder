@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
   const [connections, setConnections] = useState([]);
@@ -105,6 +106,14 @@ const Connections = () => {
                       ))}
                     </div>
                   )}
+
+                  <div className="card-actions mt-3">
+                    <Link to={"chat/" + user._id}>
+                      <button className="btn btn-primary btn-sm gap-2">
+                        💬 Chat
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

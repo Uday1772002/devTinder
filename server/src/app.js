@@ -11,7 +11,9 @@ const cors = require("cors");
 const cronJob = require("./utils/cronjob");
 const paymentRouter = require("./routes/payments");
 const app = express(); //create server
-
+const initializeSocket = require("./utils/socket");
+const chatRouter = require("./routes/chat");
+const http = require("http");
 app.use(
   cors({
     origin: [
@@ -22,6 +24,7 @@ app.use(
     credentials: true,
   }),
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -30,46 +33,14 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
+app.use("/", chatRouter);
 
-//   const userId = req.params.userId;
-//   const data = req.body;
-//   //allowed updates and validations
-//   try {
-//     const ALLOWED = [
-//       "firstName",
-//       "lastName",
-//       "password",
-//       "age",
-//       "photoUrl",
-//       "about",
-//       "skills",
-//     ];
-//     const updates = Object.keys(data).every((k) => ALLOWED.includes(k));
-//     if (!updates) {
-//       throw new Error("Invalid updates!");
-//     }
-//     // skills validation
-//     if (data?.skills.length > 10) {
-//       throw new Error("Cannot add more than 10 skills");
-//     }
-//     //remove duplicate skills
-//     const uniqueSkills = [...new Set(data.skills)];
-//     data.skills = uniqueSkills;
-
-//     await User.findByIdAndUpdate({ _id: userId }, data, {
-//       runValidators: true,
-//     });
-//     res.send("updated user Successfully");
-//   } catch (err) {
-//     res.status(500).send("Error updating user:" + err.message);
-//     console.log(err);
-//   }
-// });
-
+const server = http.createServer(app);
+initializeSocket(server);
 connectDB()
   .then(() => {
     console.log("Database connected successfully");
-    app.listen(3000, () => {
+    server.listen(3000, () => {
       console.log("Server is running on port 3000");
     });
   })

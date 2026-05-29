@@ -108,7 +108,7 @@ const Connections = () => {
                   )}
 
                   <div className="card-actions mt-3">
-                    <Link to={"chat/" + user._id}>
+                    <Link to={'/chat/' + user._id}>
                       <button className="btn btn-primary btn-sm gap-2">
                         💬 Chat
                       </button>

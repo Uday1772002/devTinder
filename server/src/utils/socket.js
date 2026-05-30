@@ -2,6 +2,9 @@ const socket = require("socket.io");
 const crypto = require("crypto");
 const { Chat } = require("../models/chat");
 const connectionRequest = require("../models/connectionRequest");
+const redisClient = require("../config/redis");
+const User = require("../models/user");
+const mongoose = require("mongoose");
 
 const getSecretRoomId = (userId, targetUserId) => {
   return crypto
@@ -34,17 +37,44 @@ const initializeSocket = (server) => {
       "sendMessage",
       async ({ firstName, text, userId, targetUserId }) => {
         try {
+          //redis check rate limit
+          const redisKey = `rate_limit:${userId}`;
+          const currentCount = await redisClient.incr(redisKey);
+          if (currentCount == 1) {
+            await redisClient.expire(redisKey, 86400); // set expiration to 24 hours
+          }
+
+          const user = await User.findById(userId);
+          console.log("isPremium:", user?.isPremium, "count:", currentCount);
+
+          //limit to 100 messages per day
+          if (!user.isPremium && currentCount > 10) {
+            return socket.emit(
+              "errorMessage",
+              "You have reached your daily message limit. Upgrade to premium for unlimited messaging.",
+            );
+          }
+
           const connection = await connectionRequest.findOne({
             $or: [
-              { sender: userId, receiver: targetUserId, status: "accepted" },
-              { sender: targetUserId, receiver: userId, status: "accepted" },
+              {
+                fromUserId: new mongoose.Types.ObjectId(userId),
+                toUserId: new mongoose.Types.ObjectId(targetUserId),
+                status: "accepted",
+              },
+              {
+                fromUserId: new mongoose.Types.ObjectId(targetUserId),
+                toUserId: new mongoose.Types.ObjectId(userId),
+                status: "accepted",
+              },
             ],
           });
 
           if (!connection) {
-            return res
-              .status(403)
-              .json({ error: "You are not connected with this user" });
+            return socket.emit(
+              "errorMessage",
+              "You are not connected with this user.",
+            );
           }
           const chatRoom = getSecretRoomId(userId, targetUserId);
           let chat = await Chat.findOne({
@@ -61,9 +91,10 @@ const initializeSocket = (server) => {
           chat.messages.push({ senderId: userId, text });
           await chat.save();
           // emit the message to everyone in the chat room except the sender
-          socket.to(chatRoom).emit("receiveMessage", {
+          io.to(chatRoom).emit("receiveMessage", {
             firstName,
             text,
+            senderId: userId,
           });
         } catch (err) {
           console.error("Error emitting message:", err);

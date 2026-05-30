@@ -70,6 +70,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       // default: "This user prefers to keep an air of mystery about them.",
     },
+
     skills: { type: [String] },
 
     // createdAt: { type: Date, default: Date.now() },
